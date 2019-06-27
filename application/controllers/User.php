@@ -19,7 +19,34 @@ class User extends CI_Controller
 	}
     public function index()
     {
-        $data['list_pertanyaan'] = $this->mcrud->pull('view_pertanyaan_diagnosa')->result_array();
+        $data_rule = $this->mcrud->pull('view_pertanyaan_diagnosa')->result_array();
+        ob_start();
+
+        foreach ($data_rule as $key_data_rule => $value_data_rule) {
+            $display = ($key_data_rule == 0) ? '' : 'style="display:none;"';
+            $penting = ($value_data_rule['penting'] == 1) ? 'penting' : '';
+            $btn_ragu = ($value_data_rule['penting'] != 1) ? '<button class="btn btn-warning btn_ragu" data-nilai="0.5" data-bobot_pakar="'.$value_data_rule['bobot_pakar'].'">Ragu-Ragu</button>' : '';
+            ?>
+            <div class="pertanyaan <?= $penting ?>" data-penting="<?= $value_data_rule['penting'] ?>" <?= $display ?>>
+                <input type="hidden" id="id_diagnosa" value="<?= $value_data_rule['id_diagnosa'] ?>" >
+                <input type="hidden" id="bobot_pakar" value="<?= $value_data_rule['bobot_pakar'] ?>" >
+
+                <p>Jawablah pertanyaan berikut dari diagnosa (<?= $value_data_rule['nama_diagnosa'] ?>) ini:</p>
+
+                <hr>
+                <p><?= $value_data_rule['nama_gejala'] ?></p>
+
+                <button class="btn btn-success btn_yes" data-nilai="1" data-bobot_pakar="<?= $value_data_rule['bobot_pakar'] ?>">Ya</button>
+                <?= $btn_ragu ?>
+                <button class="btn btn-success btn_no" data-nilai="0">Tidak</button>
+            </div>
+            <?php
+        }
+
+        $list_pertanyaan = ob_get_contents();
+        ob_end_clean();
+
+        $data['list_pertanyaan'] = $list_pertanyaan;
         $data['userinfo'] = $this->mauth->getSession();
         $this->load->view('template/head_user');
         $this->load->view('template/header', $data);
@@ -35,8 +62,7 @@ class User extends CI_Controller
                         ORDER BY gejala.id_gejala";
     }
     public function object_jawaban() {
-        $query_rule = "SELECT id_diagnosa FROM diagnosa";
-        $data_rule = $this->db->query($query_rule)->result_array();
+        $data_rule = $this->mcrud->pull_select('id_diagnosa', 'diagnosa')->result_array();
         $data = [];
         foreach ($data_rule as $value) {
             if(!in_array($value['id_diagnosa'], $data)){
