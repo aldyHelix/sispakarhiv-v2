@@ -34,5 +34,25 @@ class Admin extends CI_Controller
 		$this->load->view('admin_diagnosa', $data);
 		$this->load->view('template/script');
  	}
+ 	public function view_buatdiagnosa()
+ 	{
+ 		$data['userinfo'] = $this->mauth->getSession();
+ 		$this->load->view('template/head_admin');
+		$this->load->view('template/header', $data);
+		$this->load->view('template/sidebar_admin', $data);
+		$this->load->view('admin/BuatDiagnosa', $data);
+		$this->load->view('template/script');
+
+ 	}
+ 	public function view_editdiagnosa($id)
+ 	{
+ 		$data['diagnosa'] = $this->mcrud->pull('diagnosa', array('id_diagnosa' => $id))->row_array();
+ 		$data['userinfo'] = $this->mauth->getSession();
+ 		$this->load->view('template/head_admin');
+		$this->load->view('template/header', $data);
+		$this->load->view('template/sidebar_admin', $data);
+		$this->load->view('admin/UpdateDiagnosa', $data);
+		$this->load->view('template/script');
+ 	}
 }
 ?>
