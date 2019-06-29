@@ -19,15 +19,34 @@ class User extends CI_Controller
 	}
     public function index()
     {
+        
+        $data['userinfo'] = $this->mauth->getSession();
+        $this->load->view('template/head_user');
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar_user', $data);
+        $this->load->view('testpage', $data);
+        $this->load->view('template/script-user');
+    }
+    public function konsultasi()
+    {
+        $this->session->set_flashdata('item','item-value');
+        $sesiKonsultasi = $this->mcrud->pull_order('konsultasi', 'waktu_konsultasi desc')->row_array();
+            if (!empty($sesiKonsultasi)) {
+                $sessKonsultasi = array(
+                    'konsultasi_id' => $sesiKonsultasi['id_konsultasi'],
+                    'konsultasi_is' => true
+                );
+            $this->session->set_userdata('sess_konsul', $sessKonsultasi);
+            }
+
         $data_rule = $this->mcrud->pull('view_pertanyaan_diagnosa')->result_array();
         ob_start();
-
         foreach ($data_rule as $key_data_rule => $value_data_rule) {
             $display = ($key_data_rule == 0) ? '' : 'style="display:none;"';
             $penting = ($value_data_rule['penting'] == 1) ? 'penting' : '';
             $btn_ragu = ($value_data_rule['penting'] != 1) ? '<button class="btn btn-warning btn_ragu" data-nilai="0.5" data-bobot_pakar="'.$value_data_rule['bobot_pakar'].'">Ragu-Ragu</button>' : '';
             ?>
-            <div class="pertanyaan <?= $penting ?>" data-penting="<?= $value_data_rule['penting'] ?>" <?= $display ?>>
+            <div class="pertanyaan <?= $penting ?>" data-penting="<?= $value_data_rule['penting'] ?>" data-konsultasi="<?= $sesiKonsultasi['id_konsultasi']?>" <?= $display ?>>
                 <input type="hidden" id="id_diagnosa" value="<?= $value_data_rule['id_diagnosa'] ?>" >
                 <input type="hidden" id="bobot_pakar" value="<?= $value_data_rule['bobot_pakar'] ?>" >
 
@@ -42,12 +61,12 @@ class User extends CI_Controller
             </div>
             <?php
         }
-
         $list_pertanyaan = ob_get_contents();
         ob_end_clean();
 
         $data['list_pertanyaan'] = $list_pertanyaan;
         $data['userinfo'] = $this->mauth->getSession();
+        $data['sesi_pertanyaan'] = $this->session->sess_konsul;
         $this->load->view('template/head_user');
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar_user', $data);
@@ -71,6 +90,16 @@ class User extends CI_Controller
         }
 
         echo json_encode($data);
+    }
+
+    public function addSesiPertanyaan()
+    {
+        $id_pasien = $this->input->post('id_pasien');
+        if(!empty($id_pasien)){
+            $res = $this->mcrud->add('konsultasi', array('id_pasien' => $id_pasien ));
+
+            echo json_encode($res);
+        }
     }
 }
 ?>

@@ -1,6 +1,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
+
   $('.box-body').on('click', '.btn_no', function(){
     var pertanyaan = $(this).parent('.pertanyaan');
     var pertanyaan_selanjutnya = pertanyaan.next();
@@ -8,10 +10,9 @@ $(document).ready(function(){
     var nilai_jawaban = $(this).data('nilai');
     var bobot_pakar = pertanyaan.find('#bobot_pakar').val();
     var id_diagnosa = pertanyaan.find('#id_diagnosa').val();
-    
-    console.log(pertanyaan_selanjutnya.data('penting'));
     // data_jawaban_gejala.push(data[id_diagnosa]);
-    
+
+   var id_konsultasi = pertanyaan.data('konsultasi');
 
     // untuk mengecek kondisi apakah pertanyaan yang di jawab penting atau tidak
     // 1. jika PENTING maka pertanyaan selanjutnya yang muncul adalah pertanyaan yang HARUS PENTING JUGA
@@ -31,6 +32,7 @@ $(document).ready(function(){
             pertanyaan_selanjutnya.show();
           } else if (pertanyaan_selanjutnya.data('penting') == undefined) {
             pertanyaan.html('SELESAI');
+            <?php $this->session->unset_userdata('sess_konsul'); ?>
           }
         }
         while (pertanyaan_selanjutnya.data('penting') == 0);
@@ -50,9 +52,11 @@ $(document).ready(function(){
     var nilai_jawaban = $(this).data('nilai');
     var bobot_pakar = pertanyaan.find('#bobot_pakar').val();
     var id_diagnosa = pertanyaan.find('#id_diagnosa').val();
+    var id_konsultasi = pertanyaan.data('konsultasi');
 
     if (pertanyaan_selanjutnya.data('penting') == undefined) {
       pertanyaan.html('SELESAI');
+      <?php $this->session->unset_userdata('sess_konsul'); ?>
     } else {
       pertanyaan.hide();
       pertanyaan_selanjutnya.show();

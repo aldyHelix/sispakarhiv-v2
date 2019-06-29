@@ -18,7 +18,7 @@
         <li class="header">MAIN NAVIGATION</li>
 
         <li class="menu">
-           <a href="<?=site_url('admin/dashboard')?>">
+           <a href="<?=site_url('user')?>">
             <i class="fa fa-dashboard"></i>
             <span> Beranda</span>
             </span>
@@ -26,7 +26,7 @@
         </li>
 
         <li class="menu">
-           <a href="<?=site_url('admin/diagnosa')?>">
+           <a href="<?=site_url('user/konsultasi')?>">
             <i class="fa fa-files-o"></i>
             <span> Konsultasi</span>
             </span>
@@ -34,7 +34,7 @@
         </li>
 
         <li class="menu">
-           <a href="<?=site_url('admin/gejala')?>">
+           <a href="<?=site_url('user/histori')?>">
             <i class="fa fa-th"></i>
             <span> Histori Konsultasi</span>
             </span>

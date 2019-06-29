@@ -13,9 +13,12 @@ class Model_login extends CI_Model
 			if (checkPassword($upass, $check->row()->password)) {
 				$sess = array(
 					'login_iduser' => $check->row()->id,
-					'login_idpasien' => $userinfo->row()->id, 
+					//jika idpasien tidak kosong harus throw ini
+					'login_idpasien' => $userinfo->row()->id,
+					// 
 					'login_username' => $check->row()->username,
 					'login_email' => $check->row()->email,
+					//ini juga
 					'login_nama_pasien' => $userinfo->row()->nama_pasien,
 					'login_hak_akses' => $check->row()->hak_akses,
 					'login_is' => true);
