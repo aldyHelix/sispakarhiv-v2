@@ -23,7 +23,7 @@
               setTimeout(function() {
                 update();
                 selesai();
-              }, 200);
+              }, 1000); //interval update setiap 1 detik
             }
 
           function update() {
