@@ -47,7 +47,7 @@ class User extends CI_Controller
             $btn_ragu = ($value_data_rule['penting'] != 1) ? '<button class="btn btn-warning btn_ragu" data-nilai="0.5" data-bobot_pakar="'.$value_data_rule['bobot_pakar'].'">Ragu-Ragu</button>' : '';
             ?>
             <div class="pertanyaan <?= $penting ?>" data-penting="<?= $value_data_rule['penting'] ?>" data-konsultasi="<?= $sesiKonsultasi['id_konsultasi']?>" <?= $display ?>>
-                <input type="hidden" id="id_diagnosa" value="<?= $value_data_rule['id_diagnosa'] ?>" >
+                <input type="hidden" id="id_gejala" value="<?= $value_data_rule['id_gejala'] ?>" >
                 <input type="hidden" id="bobot_pakar" value="<?= $value_data_rule['bobot_pakar'] ?>" >
 
                 <p>Jawablah pertanyaan berikut dari diagnosa (<?= $value_data_rule['nama_diagnosa'] ?>) ini:</p>
@@ -76,10 +76,18 @@ class User extends CI_Controller
 
     public function pertanyaan()
     {
+        //fungsi ini tidak digunakan sama sekali
         $query = "SELECT diagnosa.nama_diagnosa, diagnosa.solusi_diagnosa, diagnosa.keterangan, gejala.* FROM gejala 
                         JOIN diagnosa on diagnosa.id_diagnosa = gejala.id_diagnosa
                         ORDER BY gejala.id_gejala";
+        //query hasil hanya contoh untuk MYSQL
+        $q = "SELECT pasien.id, pasien.id_user,dtl_konsultasi.id_konsultasi, diagnosa.nama_diagnosa , gejala.nama_gejala, gejala.bobot_pakar, dtl_konsultasi.bobot_user, pasien.nama_pasien FROM dtl_konsultasi
+                JOIN konsultasi on konsultasi.id_konsultasi = dtl_konsultasi.id_konsultasi
+                JOIN gejala on gejala.id_gejala = dtl_konsultasi.id_gejala
+                JOIN diagnosa on diagnosa.id_diagnosa = gejala.id_diagnosa
+                JOIN pasien on pasien.id = konsultasi.id_pasien";
     }
+
     public function object_jawaban() {
         $data_rule = $this->mcrud->pull_select('id_diagnosa', 'diagnosa')->result_array();
         $data = [];
@@ -100,6 +108,25 @@ class User extends CI_Controller
 
             echo json_encode($res);
         }
+    }
+
+    public function detailKonsultasi()
+    {
+        $id_gejala = $this->input->post('id_gejala');
+        $id_konsultasi = $this->input->post('id_konsultasi');
+        $bobot_user = $this->input->post('bobot_user');
+
+        if (!empty($id_gejala) || !empty($id_konsultasi)) {
+            $this->mcrud->add('dtl_konsultasi', array('id_gejala' => $id_gejala, 'id_konsultasi' => $id_konsultasi, 'bobot_user' => $bobot_user));
+        }
+    }
+    public function getListPertanyaan($id_konsultasi)
+    {
+        if (!empty($id_konsultasi)) {
+            $res = $this->mcrud->pull('view_hasil_pertanyaan', array('id_konsultasi' => $id_konsultasi ))->result();
+        }
+
+        echo json_encode($res);
     }
 }
 ?>

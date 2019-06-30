@@ -14,7 +14,40 @@
                     }
                 });
               }
+
+            selesai();
+
           });
+
+          function selesai() {
+              setTimeout(function() {
+                update();
+                selesai();
+              }, 200);
+            }
+
+          function update() {
+            $.ajax({
+              url : "<?php echo base_url(); ?>/user/getListPertanyaan/<?= $sesi_pertanyaan['konsultasi_id'] ?>",
+              type: 'POST',
+              dataType:'JSON',
+                success: function(data){
+                  $("#histori").empty();
+                  $.each(data, function(){
+                    if (this['bobot_user'] == 1) {
+                      var jawaban = "Ya";
+                    } else if (this['bobot_user'] == 0) {
+                      var jawaban = "Tidak";
+                    } else {
+                      var jawaban = "Ragu - Ragu";
+                    }
+
+                    $("#histori").append( "<li>" + this['nama_gejala'] + " "+jawaban+"</li>");
+                    //console.log(this['nama_gejala']);
+                  });   
+                }
+            });
+          }
       </script>
       <?php endif; ?>    
       <div class="row" id="sesipertanyaan">
@@ -25,12 +58,14 @@
 
               <h3 class="box-title">Konsultasi</h3>
             </div>
-            <?php if ($sesi_pertanyaan['konsultasi_id'] == true) {
+
+            <div class="box-body">
+              <?php if ($sesi_pertanyaan['konsultasi_is'] == true) {
               echo "Sesi Pertanyaan Aktif, Jawaban anda akan disimpan pada sistem kami.";
             } else {
               echo "Sesi Pertanyaan Tidak Aktif! Jawaban anda tidak disimpan, Silahkan Hubungi Admin!";
             }?>
-            <div class="box-body">
+
               <?= $list_pertanyaan ?>
             </div>
             <!-- /.box-body -->
@@ -66,10 +101,8 @@
               <h3 class="box-title">Histori Gejala</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
-              <div id="riwayat_pertanyaan">
-    
-              </div>
+            <div class="box-body histori">
+              <ul id="histori"></ul>
             </div>
             <!-- /.box-body -->
           </div>

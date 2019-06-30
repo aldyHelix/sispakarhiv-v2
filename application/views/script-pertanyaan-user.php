@@ -2,18 +2,27 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+  //ambil data perdetik untuk ditampilkan histori jawaban
+  //hasil pengambilan data digunakan untuk menghitung hasil
 
   $('.box-body').on('click', '.btn_no', function(){
     var pertanyaan = $(this).parent('.pertanyaan');
     var pertanyaan_selanjutnya = pertanyaan.next();
 
-    var nilai_jawaban = $(this).data('nilai');
+    var bobot_user = $(this).data('nilai');
     var bobot_pakar = pertanyaan.find('#bobot_pakar').val();
-    var id_diagnosa = pertanyaan.find('#id_diagnosa').val();
-    // data_jawaban_gejala.push(data[id_diagnosa]);
+    var id_gejala = pertanyaan.find('#id_gejala').val();
+    var id_konsultasi = pertanyaan.data('konsultasi');
 
-   var id_konsultasi = pertanyaan.data('konsultasi');
-
+    //ajax disini jika telah di klik input kirim data ke controller untuk dilakukan input
+    $.ajax({
+          url : "<?php echo base_url(); ?>/user/detailKonsultasi", 
+          type: "POST", 
+          data: { id_konsultasi : id_konsultasi, id_gejala : id_gejala, bobot_user : bobot_user },
+            success: function(data) { 
+          console.log('sukses kirim data');
+        }
+      });
     // untuk mengecek kondisi apakah pertanyaan yang di jawab penting atau tidak
     // 1. jika PENTING maka pertanyaan selanjutnya yang muncul adalah pertanyaan yang HARUS PENTING JUGA
     // 2. jika TIDAK PENTING maka hanya menampilkan pertanyaan selanjutnya
@@ -49,11 +58,20 @@ $(document).ready(function(){
     var pertanyaan = $(this).parent('.pertanyaan');
     var pertanyaan_selanjutnya = pertanyaan.next();
 
-    var nilai_jawaban = $(this).data('nilai');
+    var bobot_user = $(this).data('nilai');
     var bobot_pakar = pertanyaan.find('#bobot_pakar').val();
-    var id_diagnosa = pertanyaan.find('#id_diagnosa').val();
+    var id_gejala = pertanyaan.find('#id_gejala').val();
     var id_konsultasi = pertanyaan.data('konsultasi');
 
+    $.ajax({
+          url : "<?php echo base_url(); ?>/user/detailKonsultasi", 
+          type: "POST", 
+          data: { id_konsultasi : id_konsultasi, id_gejala : id_gejala, bobot_user : bobot_user },
+            success: function(data) { 
+          console.log('sukses kirim data');
+        }
+      });
+    
     if (pertanyaan_selanjutnya.data('penting') == undefined) {
       pertanyaan.html('SELESAI');
       <?php $this->session->unset_userdata('sess_konsul'); ?>
