@@ -6,8 +6,8 @@
 <!-- ./wrapper -->
 <!-- script for pertanyaan -->
 <?php $this->load->view('script-pertanyaan-user'); ?>
-<!-- jQuery 3 
-<script src="<?= base_url('assets/bower_components/jquery/dist/jquery.min.js') ?>"></script> -->
+<!-- jQuery 3 -->
+<script src="<?= base_url('assets/bower_components/jquery/dist/jquery.min.js') ?>"></script> 
 <!-- jQuery UI 1.11.4 -->
 
 <script src="<?= base_url('assets/bower_components/jquery-ui/jquery-ui.min.js') ?>"></script>
@@ -44,5 +44,28 @@
 <script src="<?= base_url('assets/dist/js/pages/dashboard.js') ?>"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url('assets/dist/js/demo.js') ?>"></script>
+<!-- Bootstrap slider -->
+<script src="<?= base_url('assets/plugins/bootstrap-slider/bootstrap-slider.js');?>"></script>
+<script>
+  $(function () {
+    /* BOOTSTRAP SLIDER */
+    $('.slider').slider()
+  })
+</script>
+<script type="text/javascript">
+	// With JQuery
+$('#ex1').slider({
+	formatter: function(value) {
+		return 'Current value: ' + value;
+	}
+});
+
+// Without JQuery
+var slider = new Slider('#ex1', {
+	formatter: function(value) {
+		return 'Current value: ' + value;
+	}
+});
+</script>
 </body>
 </html>

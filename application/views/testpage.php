@@ -1,9 +1,1 @@
-
-<br>
-halaman percobaan
-<br>
-<?= $sesi['id_konsultasi']?>
-<br>
-<?= $sesi['id_pasien']?>
-<br>
-<?= $sesi['waktu_konsultasi']?>
+<input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="0.1" />

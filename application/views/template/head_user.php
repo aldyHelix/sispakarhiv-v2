@@ -27,8 +27,13 @@
   <link rel="stylesheet" href="<?= base_url('assets/bower_components/bootstrap-daterangepicker/daterangepicker.css'); ?>">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="<?= base_url('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'); ?>">
-
-
+  <!-- bootstrap slider -->
+  <link rel="stylesheet" href="<?= base_url('assets/plugins/bootstrap-slider/slider.css'); ?>">
+  <style type="text/css">
+    #ex1Slider .slider-selection {
+      background: #BABABA;
+    }
+  </style>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
