@@ -20,12 +20,57 @@ class User extends CI_Controller
     public function index()
     {
         
+        $id_konsultasi = '42';
+        $getDiagnosa = $this->mcrud->pull('diagnosa');
+        $listDiagnosa = $getDiagnosa->result_array();
+        $countDiagnosa = $getDiagnosa->num_rows();
+        foreach ($listDiagnosa as $key => $hasil) {
+            $getHasil = $this->mcrud->pull_select(array('bobot_hasil'), 'view_hasil_bobot', array('id_konsultasi' => $id_konsultasi, 'id_diagnosa' => $hasil['id_diagnosa']));
+            $getBobotHasil = $getHasil->result_array();
+                $arraybu[] = $getBobotHasil;
+        }
+        foreach ($arraybu as $index => $i) {
+            $bp = array();
+                foreach ($i as $j) {
+                    $bp[] = $j['bobot_hasil'];
+                }
+            $hasilbp[] = $this->convert_cf($bp);
+        }
+        //md = user
+        //mb = pakar
+        $coba = array('0.6', '0' , '0.4', '0.6');
+        $data['bu'] = $arraybu;
+        $data['bp'] = $hasilbp;
+        $data['totDiagnosa'] = $countDiagnosa;
+        $data['bobotHasil'] = $getBobotHasil;
+        //$data['cfbu'] = $this->convert_cf($arraybu) * 100;
+        //$data['coba'] = $this->convert_cf($coba) * 100;
         $data['userinfo'] = $this->mauth->getSession();
         $this->load->view('template/head_user');
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar_user', $data);
         $this->load->view('testpage', $data);
         $this->load->view('template/script-user');
+    }
+    function convert_cf($g) {
+        if(count($g) <= 1)
+      return $g[1] = 0;
+
+     $cfIJ = null;
+     $n = count($g);
+       for($i = 0; $i < $n - 1; $i++) {
+        $j = $i + 1;
+          if($cfIJ == null)
+           $cfIJ = $g[$i];
+
+          $cfIJ = $this->hitung_mb_md($cfIJ, $g[$j]);
+       }
+     return $cfIJ;
+    }
+
+    function hitung_mb_md(float $x, float $y) {
+      $hasil = $x + $y * (1 - $x);
+      return $hasil;
     }
     public function konsultasi()
     {
@@ -64,9 +109,14 @@ class User extends CI_Controller
         $list_pertanyaan = ob_get_contents();
         ob_end_clean();
 
+        $getDiagnosa = $this->mcrud->pull('diagnosa');
+        $listDiagnosa = $getDiagnosa->result_array();
+
         $data['list_pertanyaan'] = $list_pertanyaan;
         $data['userinfo'] = $this->mauth->getSession();
         $data['sesi_pertanyaan'] = $this->session->sess_konsul;
+
+        $data['diagnosa'] = $listDiagnosa;
         $this->load->view('template/head_user');
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar_user', $data);
@@ -127,6 +177,27 @@ class User extends CI_Controller
         }
 
         echo json_encode($res);
+    }
+    public function hitungCF($id_konsultasi)
+    {
+        //$id_konsultasi = $this->input->post('id_konsultasi');
+        $getDiagnosa = $this->mcrud->pull('diagnosa');
+        $listDiagnosa = $getDiagnosa->result_array();
+        $countDiagnosa = $getDiagnosa->num_rows();
+        foreach ($listDiagnosa as $key => $hasil) {
+            $getHasil = $this->mcrud->pull_select(array('bobot_hasil'), 'view_hasil_bobot', array('id_konsultasi' => $id_konsultasi, 'id_diagnosa' => $hasil['id_diagnosa']));
+            $getBobotHasil = $getHasil->result_array();
+                $arraybu[] = $getBobotHasil;
+        }
+        foreach ($arraybu as $index => $i) {
+            $bp = array();
+                foreach ($i as $j) {
+                    $bp[] = $j['bobot_hasil'];
+                }
+            $hasilbp[] = $this->convert_cf($bp)*100;
+        }
+
+        echo json_encode($hasilbp);
     }
 }
 ?>

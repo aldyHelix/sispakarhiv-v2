@@ -1,1 +1,26 @@
-<input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="0.1" />
+<?php 
+	echo "<br>";
+	echo "array :";
+	//print_r($bu);
+	echo "<br>";
+	echo "array :";
+	print_r($bp);
+	echo "<br>";
+	echo "List :";
+	//print_r($hasilDiagnosa);
+	echo "<br>";
+	echo "Hasil : ";
+	print_r($bobotHasil);
+	echo "%";
+	echo "<br>";
+	echo "Hasil CF : ";
+	//print_r($hasilbobot);
+	echo "%";
+
+	echo "<br>";
+	foreach ($bp as $key => $m) {
+		print_r($m);
+		echo "%";
+		echo "<br>";
+	}
+ ?>
