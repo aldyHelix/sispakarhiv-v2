@@ -20,7 +20,7 @@ class User extends CI_Controller
     public function index()
     {
         
-        $id_konsultasi = '42';
+        $id_konsultasi = '36';
         $getDiagnosa = $this->mcrud->pull('diagnosa');
         $listDiagnosa = $getDiagnosa->result_array();
         $countDiagnosa = $getDiagnosa->num_rows();
@@ -34,7 +34,7 @@ class User extends CI_Controller
                 foreach ($i as $j) {
                     $bp[] = $j['bobot_hasil'];
                 }
-            $hasilbp[] = $this->convert_cf($bp);
+            $hasilbp[] = $this->convert_cf($bp)*100;
         }
         //md = user
         //mb = pakar
@@ -53,7 +53,7 @@ class User extends CI_Controller
         $this->load->view('template/script-user');
     }
     function convert_cf($g) {
-        if(count($g) <= 1)
+        if(count($g) < 1)
       return $g[1] = 0;
 
      $cfIJ = null;
@@ -101,8 +101,17 @@ class User extends CI_Controller
                 <p><?= $value_data_rule['nama_gejala'] ?></p>
 
                 <button class="btn btn-success btn_yes" data-nilai="1" data-bobot_pakar="<?= $value_data_rule['bobot_pakar'] ?>">Ya</button>
-                <?= $btn_ragu ?>
                 <button class="btn btn-success btn_no" data-nilai="0">Tidak</button>
+
+                <div class="row">
+                    <div class="col-sm-9">
+                        ini sldier
+                    </div>
+                    <div class="col-sm-3">
+                        <?= $btn_ragu ?>
+                    </div>    
+                </div>
+
             </div>
             <?php
         }
