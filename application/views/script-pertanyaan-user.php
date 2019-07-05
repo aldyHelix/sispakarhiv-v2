@@ -6,7 +6,7 @@ $(document).ready(function(){
   //hasil pengambilan data digunakan untuk menghitung hasil
 
   $('.box-body').on('click', '.btn_no', function(){
-    var pertanyaan = $(this).parent('.pertanyaan');
+    var pertanyaan = $(this).parent().parent().parent('.pertanyaan');
     var pertanyaan_selanjutnya = pertanyaan.next();
 
     var bobot_user = $(this).data('nilai');
@@ -53,7 +53,7 @@ $(document).ready(function(){
 
   });
   $('.box-body').on('click', '.btn_ragu', function(){
-    var pertanyaan = $(this).parent('.pertanyaan');
+    var pertanyaan = $(this).parent().parent().parent('.pertanyaan');
     var pertanyaan_selanjutnya = pertanyaan.next();
     var key = pertanyaan.find('#key').val();
     var bobot_user = pertanyaan.find(key).val();
@@ -81,7 +81,7 @@ $(document).ready(function(){
   });
 
   $('.box-body').on('click', '.btn_yes', function(){
-    var pertanyaan = $(this).parent('.pertanyaan');
+    var pertanyaan = $(this).parent().parent().parent('.pertanyaan');
     var pertanyaan_selanjutnya = pertanyaan.next();
 
     var bobot_user = $(this).data('nilai');

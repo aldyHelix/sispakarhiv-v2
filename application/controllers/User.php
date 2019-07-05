@@ -91,9 +91,7 @@ class User extends CI_Controller
         ob_start();
         foreach ($data_rule as $key_data_rule => $value_data_rule) {
             $display = ($key_data_rule == 0) ? '' : 'style="display:none;"';
-            $active = ($key_data_rule == 0) ? 'active-slider' : '';
             $penting = ($value_data_rule['penting'] == 1) ? 'penting' : '';
-            $btn_ragu = ($value_data_rule['penting'] != 1) ? '<button class="btn btn-warning btn_ragu">Ragu-Ragu</button>' : '';
             ?>
             <div id="pertanyaan" class="pertanyaan <?= $penting ?>" data-penting="<?= $value_data_rule['penting'] ?>" data-konsultasi="<?= $sesiKonsultasi['id_konsultasi']?>" <?= $display ?>>
                 <input type="hidden" id="id_gejala" value="<?= $value_data_rule['id_gejala'] ?>" >
@@ -104,12 +102,21 @@ class User extends CI_Controller
 
                 <hr>
                 <p><?= $value_data_rule['nama_gejala'] ?></p>
-                <button class="btn btn-success btn_yes" data-nilai="1">Ya</button>
-                <button class="btn btn-success btn_no" data-nilai="0">Tidak</button>
-                <?= $btn_ragu ?>
-                <?php if ($value_data_rule['penting'] != 1) : ?>
-                <input id="ex<?= $key_data_rule ?>" class="slider <?= $active ?>" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>
-                <?php endif; ?>
+                <div class="row">
+                    <div class="col-sm-3">
+                            <button class="btn btn-success btn_yes" data-nilai="1">Ya</button>
+                            <button class="btn btn-success btn_no" data-nilai="0">Tidak</button>
+                        </div>
+                        <?php if ($value_data_rule['penting'] != 1) : ?>
+                            <div class="col-sm-6">
+                                <p>Jika anda Ragu - Ragu dengan Gejala anda :</p>
+                                <input id="ex<?= $key_data_rule ?>" class="slider" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input> 
+                            </div>
+                            <div class="col-sm-3">
+                                <button class="btn btn-warning btn_ragu">Ragu-Ragu</button>
+                            </div>                             
+                        <?php endif; ?>
+                </div>       
             </div>
             <?php
         }
