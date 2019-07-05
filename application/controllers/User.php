@@ -91,11 +91,13 @@ class User extends CI_Controller
         ob_start();
         foreach ($data_rule as $key_data_rule => $value_data_rule) {
             $display = ($key_data_rule == 0) ? '' : 'style="display:none;"';
+            $active = ($key_data_rule == 0) ? 'active-slider' : '';
             $penting = ($value_data_rule['penting'] == 1) ? 'penting' : '';
             $btn_ragu = ($value_data_rule['penting'] != 1) ? '<button class="btn btn-warning btn_ragu">Ragu-Ragu</button>' : '';
             ?>
-            <div class="pertanyaan <?= $penting ?>" data-penting="<?= $value_data_rule['penting'] ?>" data-konsultasi="<?= $sesiKonsultasi['id_konsultasi']?>" <?= $display ?>>
+            <div id="pertanyaan" class="pertanyaan <?= $penting ?>" data-penting="<?= $value_data_rule['penting'] ?>" data-konsultasi="<?= $sesiKonsultasi['id_konsultasi']?>" <?= $display ?>>
                 <input type="hidden" id="id_gejala" value="<?= $value_data_rule['id_gejala'] ?>" >
+                <input type="hidden" id="key" value="#ex<?= $key_data_rule ?>" >
                 <input type="hidden" id="bobot_pakar" value="<?= $value_data_rule['bobot_pakar'] ?>" >
 
                 <p>Jawablah pertanyaan berikut dari diagnosa (<?= $value_data_rule['nama_diagnosa'] ?>) ini:</p>
@@ -106,7 +108,7 @@ class User extends CI_Controller
                 <button class="btn btn-success btn_no" data-nilai="0">Tidak</button>
                 <?= $btn_ragu ?>
                 <?php if ($value_data_rule['penting'] != 1) : ?>
-                <input id="ex<?= $key_data_rule ?>" class="slider col-md-6" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>
+                <input id="ex<?= $key_data_rule ?>" class="slider <?= $active ?>" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>
                 <?php endif; ?>
             </div>
             <?php

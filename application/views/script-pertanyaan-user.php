@@ -55,11 +55,13 @@ $(document).ready(function(){
   $('.box-body').on('click', '.btn_ragu', function(){
     var pertanyaan = $(this).parent('.pertanyaan');
     var pertanyaan_selanjutnya = pertanyaan.next();
-    var bobot_user = pertanyaan.find('.slider').val();
+    var key = pertanyaan.find('#key').val();
+    var bobot_user = pertanyaan.find(key).val();
     var id_gejala = pertanyaan.find('#id_gejala').val();
     var id_konsultasi = pertanyaan.data('konsultasi');
 
-    //console.log(bobot_user);
+    console.log(bobot_user);
+    //console.log(val(slider));
     $.ajax({
           url : "<?php echo base_url(); ?>user/detailKonsultasi", 
           type: "POST", 
