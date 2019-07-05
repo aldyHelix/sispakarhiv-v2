@@ -10,13 +10,12 @@ $(document).ready(function(){
     var pertanyaan_selanjutnya = pertanyaan.next();
 
     var bobot_user = $(this).data('nilai');
-    var bobot_pakar = pertanyaan.find('#bobot_pakar').val();
     var id_gejala = pertanyaan.find('#id_gejala').val();
     var id_konsultasi = pertanyaan.data('konsultasi');
 
     //ajax disini jika telah di klik input kirim data ke controller untuk dilakukan input
     $.ajax({
-          url : "<?php echo base_url(); ?>/user/detailKonsultasi", 
+          url : "<?php echo base_url(); ?>user/detailKonsultasi", 
           type: "POST", 
           data: { id_konsultasi : id_konsultasi, id_gejala : id_gejala, bobot_user : bobot_user },
             success: function(data) { 
@@ -53,18 +52,42 @@ $(document).ready(function(){
     }
 
   });
+  $('.box-body').on('click', '.btn_ragu', function(){
+    var pertanyaan = $(this).parent('.pertanyaan');
+    var pertanyaan_selanjutnya = pertanyaan.next();
+    var bobot_user = pertanyaan.find('.slider').val();
+    var id_gejala = pertanyaan.find('#id_gejala').val();
+    var id_konsultasi = pertanyaan.data('konsultasi');
 
-  $('.box-body').on('click', '.btn_yes , .btn_ragu', function(){
+    //console.log(bobot_user);
+    $.ajax({
+          url : "<?php echo base_url(); ?>user/detailKonsultasi", 
+          type: "POST", 
+          data: { id_konsultasi : id_konsultasi, id_gejala : id_gejala, bobot_user : bobot_user },
+            success: function(data) { 
+          console.log('sukses kirim data');
+        }
+      });
+    
+    if (pertanyaan_selanjutnya.data('penting') == undefined) {
+      pertanyaan.html('SELESAI');
+      <?php $this->session->unset_userdata('sess_konsul'); ?>
+    } else {
+      pertanyaan.hide();
+      pertanyaan_selanjutnya.show();
+    }
+  });
+
+  $('.box-body').on('click', '.btn_yes', function(){
     var pertanyaan = $(this).parent('.pertanyaan');
     var pertanyaan_selanjutnya = pertanyaan.next();
 
     var bobot_user = $(this).data('nilai');
-    var bobot_pakar = pertanyaan.find('#bobot_pakar').val();
     var id_gejala = pertanyaan.find('#id_gejala').val();
     var id_konsultasi = pertanyaan.data('konsultasi');
 
     $.ajax({
-          url : "<?php echo base_url(); ?>/user/detailKonsultasi", 
+          url : "<?php echo base_url(); ?>user/detailKonsultasi", 
           type: "POST", 
           data: { id_konsultasi : id_konsultasi, id_gejala : id_gejala, bobot_user : bobot_user },
             success: function(data) { 

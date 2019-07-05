@@ -52,20 +52,21 @@
     $('.slider').slider()
   })
 </script>
-<script type="text/javascript">
-	// With JQuery
-$('#ex1').slider({
-	formatter: function(value) {
-		return 'Current value: ' + value;
-	}
-});
-
-// Without JQuery
-var slider = new Slider('#ex1', {
-	formatter: function(value) {
-		return 'Current value: ' + value;
-	}
-});
+    <script type="text/javascript">
+<?php foreach ($data_rule as $key_data_rule => $value) { ?>
+	<?php if ($value['penting'] != 1) { ?>
+        $('#ex<?= $key_data_rule ?>').slider({
+            formatter: function(value) {
+            return 'Current value: ' + value;
+            }
+        });
+        var slider = new Slider('#ex<?= $key_data_rule ?>', {
+            formatter: function(value) {
+                 return 'Current value: ' + value;
+            }
+        });
+    <?php } ?>
+<?php } ?>
 </script>
 </body>
 </html>

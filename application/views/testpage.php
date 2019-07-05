@@ -43,3 +43,7 @@
     }
 
  ?>
+ <input id="ex0" class="slider col-md-6" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>
+ <input id="ex1" class="slider col-md-6" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>
+ <input id="ex2" class="slider col-md-6" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>
+ <input id="ex3" class="slider col-md-6" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>

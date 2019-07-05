@@ -39,6 +39,7 @@ class User extends CI_Controller
         //md = user
         //mb = pakar
         $coba = array('0.6', '0' , '0.4', '0.6');
+        $data_rule = $this->mcrud->pull('view_pertanyaan_diagnosa')->result_array();
         $data['bu'] = $arraybu;
         $data['bp'] = $hasilbp;
         $data['totDiagnosa'] = $countDiagnosa;
@@ -46,6 +47,7 @@ class User extends CI_Controller
         //$data['cfbu'] = $this->convert_cf($arraybu) * 100;
         //$data['coba'] = $this->convert_cf($coba) * 100;
         $data['userinfo'] = $this->mauth->getSession();
+        $data['data_rule'] = $data_rule;
         $this->load->view('template/head_user');
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar_user', $data);
@@ -85,11 +87,12 @@ class User extends CI_Controller
             }
 
         $data_rule = $this->mcrud->pull('view_pertanyaan_diagnosa')->result_array();
+        //$data_rule = $this->mcrud->pull('view_pertanyaan_diagnosa')->num_rows();
         ob_start();
         foreach ($data_rule as $key_data_rule => $value_data_rule) {
             $display = ($key_data_rule == 0) ? '' : 'style="display:none;"';
             $penting = ($value_data_rule['penting'] == 1) ? 'penting' : '';
-            $btn_ragu = ($value_data_rule['penting'] != 1) ? '<button class="btn btn-warning btn_ragu" data-nilai="0.5" data-bobot_pakar="'.$value_data_rule['bobot_pakar'].'">Ragu-Ragu</button>' : '';
+            $btn_ragu = ($value_data_rule['penting'] != 1) ? '<button class="btn btn-warning btn_ragu">Ragu-Ragu</button>' : '';
             ?>
             <div class="pertanyaan <?= $penting ?>" data-penting="<?= $value_data_rule['penting'] ?>" data-konsultasi="<?= $sesiKonsultasi['id_konsultasi']?>" <?= $display ?>>
                 <input type="hidden" id="id_gejala" value="<?= $value_data_rule['id_gejala'] ?>" >
@@ -99,19 +102,12 @@ class User extends CI_Controller
 
                 <hr>
                 <p><?= $value_data_rule['nama_gejala'] ?></p>
-
-                <button class="btn btn-success btn_yes" data-nilai="1" data-bobot_pakar="<?= $value_data_rule['bobot_pakar'] ?>">Ya</button>
+                <button class="btn btn-success btn_yes" data-nilai="1">Ya</button>
                 <button class="btn btn-success btn_no" data-nilai="0">Tidak</button>
-
-                <div class="row">
-                    <div class="col-sm-9">
-                        ini sldier
-                    </div>
-                    <div class="col-sm-3">
-                        <?= $btn_ragu ?>
-                    </div>    
-                </div>
-
+                <?= $btn_ragu ?>
+                <?php if ($value_data_rule['penting'] != 1) : ?>
+                <input id="ex<?= $key_data_rule ?>" class="slider col-md-6" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>
+                <?php endif; ?>
             </div>
             <?php
         }
@@ -120,7 +116,7 @@ class User extends CI_Controller
 
         $getDiagnosa = $this->mcrud->pull('diagnosa');
         $listDiagnosa = $getDiagnosa->result_array();
-
+        $data['data_rule'] = $data_rule;
         $data['list_pertanyaan'] = $list_pertanyaan;
         $data['userinfo'] = $this->mauth->getSession();
         $data['sesi_pertanyaan'] = $this->session->sess_konsul;
