@@ -45,4 +45,23 @@ class Cari_cf {
             $arraybu[] = $key['bobot_user'];
             $arraybp[] = $key['bobot_pakar'];
         }
+                $hasil = $this->hitung($arraybp, $arraybu);
+                  foreach ($bu as $index => $i) {
+    $bp = array();
+    foreach ($i as $j) {
+      //print_r($j['bobot_hasil']);
+      //echo ",";
+      //echo "<br>";
+      //print_r($arraybu);
+      //echo "<br>";
+      $bp[] = $j['bobot_hasil'];
+    }
+    echo "Hasil array : ";
+    print_r($bp);
+    echo "<br>";  
+        //print_r($index);
+    //echo "==============";
+        //echo "<br>";
+    }
+
  ?>

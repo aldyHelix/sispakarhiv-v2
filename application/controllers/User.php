@@ -55,9 +55,10 @@ class User extends CI_Controller
         $this->load->view('template/script-user');
     }
     function convert_cf($g) {
-        if(count($g) < 1)
-      return $g[1] = 0;
-
+        if(count($g) < 1){
+           return $g[1] = 0; 
+        }
+      
      $cfIJ = null;
      $n = count($g);
        for($i = 0; $i < $n - 1; $i++) {

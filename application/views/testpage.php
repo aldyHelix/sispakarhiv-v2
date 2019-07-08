@@ -1,49 +1,55 @@
 <?php 
-	echo "<br>";
-	echo "array :";
-	print_r($bu);
-	echo "<br>";
-	echo "array :";
-	print_r($bp);
-	echo "<br>";
-	echo "List :";
-	//print_r($hasilDiagnosa);
-	echo "<br>";
-	echo "Hasil : ";
-	print_r($bobotHasil);
-	echo "%";
-	echo "<br>";
-	echo "Hasil CF : ";
-	//print_r($hasilbobot);
-	echo "%";
-	$coba = array('0.6', '0' , '0.4', '0.6');
-	print_r($coba);
-	echo "<br>";
-	foreach ($bp as $key => $m) {
-		print_r($m);
-		echo "%";
-		echo "<br>";
-	}
-	foreach ($bu as $index => $i) {
-    $bp = array();
-    foreach ($i as $j) {
-      print_r($j['bobot_hasil']);
-      echo ",";
-      echo "<br>";
-      //print_r($arraybu);
-      //echo "<br>";
-      $bp[] = $j['bobot_hasil'];
-    }
-    echo "Hasil array : ";
-    print_r($bp);
-    echo "<br>";  
-        //print_r($index);
-    //echo "==============";
-        //echo "<br>";
-    }
+$g = array(1,2,3,4,5);
+//print_r($n);
+echo "<br>";
+//$g[1] = 0;
+
+print_r($g);
+echo "<br>";
+$cfIJ = null;
+     $n = count($g);
+     print_r($n);
+     echo "<br>";
+       for($i = 0; $i < $n - 1; $i++) {
+       	print_r($i);
+       	echo "- <br>";
+        $j = $i + 1;
+        //
+          if($cfIJ == null){
+           $cfIJ = $g[$i];
+	            print_r("hitung disini");
+	       		echo "<br>";
+	       		print_r($cfIJ);
+	       		echo "<br>";
+	       		print_r($g[$j]);
+	       		echo "<br>";
+       		}
+       	//
+          $cfIJ = $cfIJ + $g[$j];
+          print_r($cfIJ);
+          echo "Hasil <br>";
+       }
+echo "==================================";
+echo "<br>";
+$cf = null;
+       for($a = 3; $a < $n - 1; $a++) {
+       	print_r($a);
+       	echo "- <br>";
+        $b = $a + 1;
+        //
+          if($cf == null){
+           $cf = $g[$a];
+	            print_r("hitung disini");
+	       		echo "<br>";
+	       		print_r($cf);
+	       		echo "<br>";
+	       		print_r($g[$b]);
+	       		echo "<br>";
+       		}
+       	//
+          $cf = $cf + $g[$b];
+          print_r($cf);
+          echo "Hasil <br>";
+       }
 
  ?>
- <input id="ex0" class="slider col-md-6" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>
- <input id="ex1" class="slider col-md-6" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>
- <input id="ex2" class="slider col-md-6" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>
- <input id="ex3" class="slider col-md-6" type="text" data-slider-min="0.1" data-slider-max="0.9" data-slider-step="0.1" data-slider-value="0.5"></input>
